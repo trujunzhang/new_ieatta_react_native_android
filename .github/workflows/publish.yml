@@ -29,7 +29,7 @@ jobs:
           flavor: |
             latest=auto
           images: |
-            djzhang/new_ieatta_react_native_android
+            trujunzhang/new_ieatta_react_native_android
           tags: |
             type=ref,event=tag
             type=semver,pattern={{version}}
