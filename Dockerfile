@@ -23,9 +23,16 @@ RUN gpg --keyserver keyserver.ubuntu.com --recv-keys \
         7D2BAF1CF37B13E2069D6956105BD0E739499BDB 
 
 RUN curl -L https://get.rvm.io | bash -s stable
-RUN /bin/bash -l -c "rvm install 3.3.4"
-RUN /bin/bash -l -c "rvm use 3.3.4 --default"
-RUN /bin/bash -l -c "echo 'gem: --no-ri --no-rdoc' > ~/.gemrc"
+
+RUN rvm get head
+RUN rvm requirements && \
+    rvm pkg install openssl && \
+    rvm install 3.3.4  && \
+    rvm use 3.3.4 --default
+
+# RUN /bin/bash -l -c "rvm install 3.3.4"
+# RUN /bin/bash -l -c "rvm use 3.3.4 --default"
+# RUN /bin/bash -l -c "echo 'gem: --no-ri --no-rdoc' > ~/.gemrc"
 
 
 
