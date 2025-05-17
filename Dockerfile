@@ -22,7 +22,7 @@ RUN gpg --keyserver keyserver.ubuntu.com --recv-keys \
 RUN useradd -ms /bin/bash app
 USER app
 
-RUN \curl -L https://get.rvm.io | bash -s stable
+RUN curl -L https://get.rvm.io | bash -s stable
 RUN /bin/bash -l -c "rvm install 3.3.4"
 RUN /bin/bash -l -c "rvm use 3.3.4 --default"
 RUN /bin/bash -l -c "echo 'gem: --no-ri --no-rdoc' > ~/.gemrc"
