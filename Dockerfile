@@ -13,7 +13,9 @@ RUN apt-get update && \
     apt-get install -y build-essential libpq-dev curl gpg && \
     rm -rf /var/lib/apt/lists/*
 
-RUN apt-get install -y libssl-dev=1.1.1l-1ubuntu1.4  openssl=1.1.1l-1ubuntu1.4
+# RUN apt-get install -y libssl-dev=1.1.1l-1ubuntu1.4  openssl=1.1.1l-1ubuntu1.4
+
+RUN apt-get install -y libssl-dev openssl
 
 RUN useradd -ms /bin/bash app
 USER app
