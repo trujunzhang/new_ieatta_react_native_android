@@ -32,10 +32,10 @@ RUN gpg --keyserver keyserver.ubuntu.com --recv-keys \
     # echo "source /home/app/rvm.sh" >> /etc/bash.bashrc
 
 RUN rvm get head
-RUN rvm requirements && \
-    rvm pkg install openssl && \
-    rvm install 3.3.4  && \
-    rvm use 3.3.4 --default
+# RUN rvm requirements 
+# RUN rvm pkg install openssl
+RUN rvm install 3.3.4 
+RUN rvm use 3.3.4 --default
 
 # RUN /bin/bash -l -c "rvm install 3.3.4"
 # RUN /bin/bash -l -c "rvm use 3.3.4 --default"
