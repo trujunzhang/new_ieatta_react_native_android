@@ -26,16 +26,18 @@ SHELL ["/bin/bash", "-lc"]
 
 RUN gpg --keyserver keyserver.ubuntu.com --recv-keys \
         409B6B1796C275462A1703113804BB82D39DC0E3 \
-        7D2BAF1CF37B13E2069D6956105BD0E739499BDB && \
-    curl -sSL https://get.rvm.io | bash -s stable && \
-    echo 'source /home/app/.rvm/scripts/rvm' >> /home/app/.bashrc
-    # echo "source /home/app/rvm.sh" >> /etc/bash.bashrc
+        7D2BAF1CF37B13E2069D6956105BD0E739499BDB 
+
+RUN curl -sSL https://get.rvm.io | bash -s stable 
+RUN echo 'source /home/app/.rvm/scripts/rvm' >> /home/app/.bashrc
+
+# echo "source /home/app/rvm.sh" >> /etc/bash.bashrc
 
 RUN rvm get master
 RUN rvm get head
 # RUN rvm requirements 
-# RUN rvm pkg install openssl
-RUN rvm install 3.3.4 
+RUN rvm pkg install openssl
+RUN rvm install 3.3.4  --with-openssl-dir=/home/app/.rvm/usr
 RUN rvm use 3.3.4 --default
 
 # RUN /bin/bash -l -c "rvm install 3.3.4"
