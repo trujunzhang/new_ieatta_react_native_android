@@ -1,5 +1,7 @@
 FROM ubuntu:22.04
 
+FROM ruby:3.3.4 
+
 LABEL Description="This image provides a base Android development environment for React Native, and may be used to run tests."
 
 ENV DEBIAN_FRONTEND=noninteractive
@@ -10,7 +12,7 @@ ARG SDK_VERSION=commandlinetools-linux-11076708_latest.zip
 ARG ANDROID_BUILD_VERSION=35
 ARG ANDROID_TOOLS_VERSION=35.0.0
 ARG NDK_VERSION=27.1.12297006
-ARG NODE_VERSION=20.18
+ARG NODE_VERSION=20.18.1
 ARG WATCHMAN_VERSION=4.9.0
 ARG CMAKE_VERSION=3.30.5
 
@@ -44,8 +46,8 @@ RUN apt update -qq && apt install -qq -y --no-install-recommends \
         python3 \
         python3-distutils \
         rsync \
-        ruby \
-        ruby-dev \
+        # ruby \
+        # ruby-dev \
         tzdata \
         unzip \
         sudo \
