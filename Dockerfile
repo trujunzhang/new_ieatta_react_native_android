@@ -4,38 +4,6 @@ LABEL Description="This image provides a base Android development environment fo
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-
-
-
-
-# basics
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
-    build-essential libyaml-dev zlib1g-dev libssl-dev \
-    git curl ca-certificates \
-    && rm -rf /var/lib/apt/lists/*
-
-
-RUN useradd -ms /bin/bash app
-USER app
-
-SHELL ["/bin/bash", "-lc"]
-
-RUN git clone https://github.com/rbenv/rbenv.git /home/app/.rbenv
-RUN echo 'eval "$(/home/app/.rbenv/bin/rbenv init - bash)"' >> /home/app/.bashrc
-
-ENV PATH=/home/app/.rbenv/shims:/home/app/.rbenv/bin:$PATH
-RUN git clone https://github.com/rbenv/ruby-build.git "$(rbenv root)"/plugins/ruby-build
-
-RUN rbenv install 3.3.4
-RUN rbenv global 3.3.4 
-
-
-
-
-
-
-
 # set default build arguments
 # https://developer.android.com/studio#command-tools
 ARG SDK_VERSION=commandlinetools-linux-11076708_latest.zip
@@ -76,8 +44,8 @@ RUN apt update -qq && apt install -qq -y --no-install-recommends \
         python3 \
         python3-distutils \
         rsync \
-        # ruby \
-        # ruby-dev \
+        ruby \
+        ruby-dev \
         tzdata \
         unzip \
         sudo \
@@ -198,3 +166,32 @@ RUN curl -sS https://dl.google.com/android/repository/${SDK_VERSION} -o /tmp/sdk
 
 # Disable git safe directory check as this is causing GHA to fail on GH Runners
 RUN git config --global --add safe.directory '*'
+
+
+
+
+# ================================================================
+# The following is installing ruby
+# ================================================================
+# basics
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+    build-essential libyaml-dev zlib1g-dev libssl-dev \
+    git curl ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+
+RUN useradd -ms /bin/bash app
+USER app
+
+SHELL ["/bin/bash", "-lc"]
+
+RUN git clone https://github.com/rbenv/rbenv.git /home/app/.rbenv
+RUN echo 'eval "$(/home/app/.rbenv/bin/rbenv init - bash)"' >> /home/app/.bashrc
+
+ENV PATH=/home/app/.rbenv/shims:/home/app/.rbenv/bin:$PATH
+RUN git clone https://github.com/rbenv/ruby-build.git "$(rbenv root)"/plugins/ruby-build
+
+RUN rbenv install 3.3.4
+RUN rbenv global 3.3.4 
+
