@@ -31,6 +31,7 @@ RUN gpg --keyserver keyserver.ubuntu.com --recv-keys \
     echo 'source /home/app/.rvm/scripts/rvm' >> /home/app/.bashrc
     # echo "source /home/app/rvm.sh" >> /etc/bash.bashrc
 
+RUN rvm get master
 RUN rvm get head
 # RUN rvm requirements 
 # RUN rvm pkg install openssl
