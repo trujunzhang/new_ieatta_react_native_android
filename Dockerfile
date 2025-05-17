@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 
 LABEL Description="This image provides a base Android development environment for React Native, and may be used to run tests."
 
@@ -8,29 +8,16 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 
 
-RUN apt-get update
-
 # basics
-RUN apt-get install -y nginx openssh-server git-core openssh-client curl
-RUN apt-get install -y nano 
-RUN apt-get install -y build-essential
+RUN apt-get update && \
+    apt-get install -y build-essential libpq-dev curl gpg && \
+    rm -rf /var/lib/apt/lists/*
 
-RUN apt-get update -qq \
- && apt-get install -qy --no-install-recommends \
-       ca-certificates \
- && apt-get install -qy --no-install-recommends \
-       curl \
-       dirmngr \
-       git \
-       gnupg2 
+SHELL ["/bin/bash", "-lc"]
 
-# install the prerequisite patches here so that rvm will install under non-root account. 
-RUN apt-get install -y curl patch gawk g++ gcc make libc6-dev patch libreadline6-dev zlib1g-dev libssl-dev libyaml-dev libsqlite3-dev sqlite3 autoconf libgdbm-dev libncurses5-dev automake libtool bison pkg-config libffi-dev
-
-
-# install RVM, Ruby, and Bundler
-# gpg2 --keyserver keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
-gpg2 --keyserver keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
+RUN gpg --keyserver keyserver.ubuntu.com --recv-keys \
+        409B6B1796C275462A1703113804BB82D39DC0E3 \
+        7D2BAF1CF37B13E2069D6956105BD0E739499BDB 
 
 RUN useradd -ms /bin/bash app
 USER app
