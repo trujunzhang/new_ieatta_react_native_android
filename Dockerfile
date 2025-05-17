@@ -13,16 +13,23 @@ RUN apt-get update && \
     apt-get install -y build-essential libpq-dev curl gpg && \
     rm -rf /var/lib/apt/lists/*
 
-# SHELL ["/bin/bash", "-lc"]
-
 RUN useradd -ms /bin/bash app
 USER app
 
+SHELL ["/bin/bash", "-lc"]
+
+# RUN gpg --keyserver keyserver.ubuntu.com --recv-keys \
+#         409B6B1796C275462A1703113804BB82D39DC0E3 \
+#         7D2BAF1CF37B13E2069D6956105BD0E739499BDB 
+
+# RUN curl -L https://get.rvm.io | bash -s stable
+
 RUN gpg --keyserver keyserver.ubuntu.com --recv-keys \
         409B6B1796C275462A1703113804BB82D39DC0E3 \
-        7D2BAF1CF37B13E2069D6956105BD0E739499BDB 
-
-RUN curl -L https://get.rvm.io | bash -s stable
+        7D2BAF1CF37B13E2069D6956105BD0E739499BDB && \
+    curl -sSL https://get.rvm.io | bash -s stable && \
+    echo 'source /home/app/.rvm/scripts/rvm' >> /home/app/.bashrc
+    # echo "source /home/app/rvm.sh" >> /etc/bash.bashrc
 
 RUN rvm get head
 RUN rvm requirements && \
