@@ -9,28 +9,45 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 
 # basics
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
-    build-essential libyaml-dev zlib1g-dev libssl-dev \
-    git curl ca-certificates \
-    && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && \
+    apt-get install -y build-essential libpq-dev curl gpg && \
+    rm -rf /var/lib/apt/lists/*
 
+# RUN apt-get install -y libssl-dev=1.1.1l-1ubuntu1.4  openssl=1.1.1l-1ubuntu1.4
+
+RUN apt-get install -y libssl-dev openssl
 
 RUN useradd -ms /bin/bash app
 USER app
 
 SHELL ["/bin/bash", "-lc"]
 
-RUN git clone https://github.com/rbenv/rbenv.git /home/app/.rbenv
-RUN echo 'eval "$(/home/app/.rbenv/bin/rbenv init - bash)"' >> /home/app/.bashrc
+# RUN gpg --keyserver keyserver.ubuntu.com --recv-keys \
+#         409B6B1796C275462A1703113804BB82D39DC0E3 \
+#         7D2BAF1CF37B13E2069D6956105BD0E739499BDB 
 
-ENV PATH=/home/app/.rbenv/shims:/home/app/.rbenv/bin:$PATH
-RUN git clone https://github.com/rbenv/ruby-build.git "$(rbenv root)"/plugins/ruby-build
+# RUN curl -L https://get.rvm.io | bash -s stable
 
-RUN rbenv install 3.3.4
-RUN rbenv global 3.3.4 
+RUN gpg --keyserver keyserver.ubuntu.com --recv-keys \
+        409B6B1796C275462A1703113804BB82D39DC0E3 \
+        7D2BAF1CF37B13E2069D6956105BD0E739499BDB 
 
+RUN curl -sSL https://get.rvm.io | bash -s stable 
+RUN echo 'source /home/app/.rvm/scripts/rvm' >> /home/app/.bashrc
 
+# echo "source /home/app/rvm.sh" >> /etc/bash.bashrc
+
+RUN rvm get master
+RUN rvm get head
+# RUN rvm requirements 
+# RUN rvm pkg install openssl
+# RUN rvm install 3.3.4  --with-openssl-dir=/home/app/.rvm/usr
+RUN rvm install 3.3.4  
+RUN rvm use 3.3.4 --default
+
+# RUN /bin/bash -l -c "rvm install 3.3.4"
+# RUN /bin/bash -l -c "rvm use 3.3.4 --default"
+# RUN /bin/bash -l -c "echo 'gem: --no-ri --no-rdoc' > ~/.gemrc"
 
 
 
