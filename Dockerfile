@@ -13,7 +13,7 @@ RUN apt-get update && \
     apt-get install -y build-essential libpq-dev curl gpg && \
     rm -rf /var/lib/apt/lists/*
 
-SHELL ["/bin/bash", "-lc"]
+# SHELL ["/bin/bash", "-lc"]
 
 RUN gpg --keyserver keyserver.ubuntu.com --recv-keys \
         409B6B1796C275462A1703113804BB82D39DC0E3 \
