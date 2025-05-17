@@ -13,6 +13,8 @@ RUN apt-get update && \
     apt-get install -y build-essential libpq-dev curl gpg && \
     rm -rf /var/lib/apt/lists/*
 
+RUN apt install libssl-dev=1.1.1l-1ubuntu1.4  openssl=1.1.1l-1ubuntu1.4
+
 RUN useradd -ms /bin/bash app
 USER app
 
@@ -36,8 +38,9 @@ RUN echo 'source /home/app/.rvm/scripts/rvm' >> /home/app/.bashrc
 RUN rvm get master
 RUN rvm get head
 # RUN rvm requirements 
-RUN rvm pkg install openssl
-RUN rvm install 3.3.4  --with-openssl-dir=/home/app/.rvm/usr
+# RUN rvm pkg install openssl
+# RUN rvm install 3.3.4  --with-openssl-dir=/home/app/.rvm/usr
+RUN rvm install 3.3.4  
 RUN rvm use 3.3.4 --default
 
 # RUN /bin/bash -l -c "rvm install 3.3.4"
